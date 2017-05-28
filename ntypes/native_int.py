@@ -8,7 +8,7 @@ import operator
 
 # Helpers
 def get_value(value, bits, signed):
-    if isinstance(value, int_t):
+    if isinstance(value, nint):
         value = value.v
     mask = 2**bits - 1
     if signed and value & (1 << (bits - 1)):
@@ -17,11 +17,11 @@ def get_value(value, bits, signed):
         return value & mask
 
 def ensure_native(lhs, rhs):
-    assert isinstance(lhs, int_t) or isinstance(rhs, int_t)
-    if not isinstance(lhs, int_t):
-        lhs = int_t(lhs, rhs.b, rhs.s)
-    if not isinstance(rhs, int_t):
-        rhs = int_t(rhs, lhs.b, lhs.s)
+    assert isinstance(lhs, nint) or isinstance(rhs, nint)
+    if not isinstance(lhs, nint):
+        lhs = nint(lhs, rhs.b, rhs.s)
+    if not isinstance(rhs, nint):
+        rhs = nint(rhs, lhs.b, lhs.s)
     return lhs, rhs
 
 # Promotions
@@ -38,7 +38,7 @@ def op_binary(lhs, rhs, op):
     result = op(
         get_value(lhs, bits, signed),
         get_value(rhs, bits, signed))
-    return int_t(result, bits, signed)
+    return nint(result, bits, signed)
 
 def op_relational(lhs, rhs, op):
     lhs, rhs = ensure_native(lhs, rhs)
@@ -49,7 +49,7 @@ def op_relational(lhs, rhs, op):
     return op(lhs_int, rhs_int)
 
 # Native Integer
-class int_t(object):
+class nint(object):
     def __init__(self, value=0, bits=32, signed=True):
         self.b = bits
         self.s = signed
@@ -120,28 +120,28 @@ class int_t(object):
 
 
 # Shorthands
-class int8_t(int_t):
+class int8(nint):
     def __init__(self, value=0):
-        super(int8_t, self).__init__(value, bits=8, signed=True)
-class int16_t(int_t):
+        super(int8, self).__init__(value, bits=8, signed=True)
+class int16(nint):
     def __init__(self, value=0):
-        super(int16_t, self).__init__(value, bits=16, signed=True)
-class int32_t(int_t):
+        super(int16, self).__init__(value, bits=16, signed=True)
+class int32(nint):
     def __init__(self, value=0):
-        super(int32_t, self).__init__(value, bits=32, signed=True)
-class int64_t(int_t):
+        super(int32, self).__init__(value, bits=32, signed=True)
+class int64(nint):
     def __init__(self, value=0):
-        super(int64_t, self).__init__(value, bits=64, signed=True)
+        super(int64, self).__init__(value, bits=64, signed=True)
 
-class uint8_t(int_t):
-    def __init__(self, value):
-        super(uint8_t, self).__init__(value, bits=8, signed=False)
-class uint16_t(int_t):
-    def __init__(self, value):
-        super(uint16_t, self).__init__(value, bits=16, signed=False)
-class uint32_t(int_t):
-    def __init__(self, value):
-        super(uint32_t, self).__init__(value, bits=32, signed=False)
-class uint64_t(int_t):
-    def __init__(self, value):
-        super(uint64_t, self).__init__(value, bits=64, signed=False)
+class uint8(nint):
+    def __init__(self, value=0):
+        super(uint8, self).__init__(value, bits=8, signed=False)
+class uint16(nint):
+    def __init__(self, value=0):
+        super(uint16, self).__init__(value, bits=16, signed=False)
+class uint32(nint):
+    def __init__(self, value=0):
+        super(uint32, self).__init__(value, bits=32, signed=False)
+class uint64(nint):
+    def __init__(self, value=0):
+        super(uint64, self).__init__(value, bits=64, signed=False)
