@@ -44,7 +44,7 @@ def test_values():
     assert int(uint64_t(0x10000000000000000)) == 0
 
 
-def test_implicit_casts():
+def test_casts_implicit():
     # Signedness
     assert (int_t( signed=True  ) + int_t( signed=True  )).s == True
     assert (int_t( signed=True  ) + int_t( signed=False )).s == False
@@ -58,16 +58,42 @@ def test_implicit_casts():
     assert (int_t( bits=16 ) + int_t( bits = 16 )).b == 16
 
 
-def test_explicit_casts():
+def test_casts_explicit():
     pass
+
+
+def test_ops_binary():
+    # Casts
+    assert uint8_t(0xFF) + 1 == uint8_t(0)
+    assert 1 + uint8_t(0xFF) == uint8_t(0)
+
+    # Binary ops
+    assert uint8_t(3)  + uint8_t(2) == uint8_t(5)
+    assert uint8_t(3)  - uint8_t(2) == uint8_t(1)
+    assert uint8_t(3)  * uint8_t(2) == uint8_t(6)
+    assert uint8_t(3)  / uint8_t(2) == uint8_t(1)
+    assert uint8_t(3) // uint8_t(2) == uint8_t(1)
+    assert uint8_t(7)  % uint8_t(5) == uint8_t(2)
+
+
+def test_ops_relational():
+    # Casts
+    assert int8_t(0x1) == 1
+    assert int8_t(0x100) == 0
+
+    # Signedness
+    assert  int8_t(0x80) <  int8_t(0x7F)
+    assert uint8_t(0x80) >  int8_t(0x7F)
+    assert  int8_t(0x80) > uint8_t(0x7F)
+    assert uint8_t(0x80) > uint8_t(0x7F)
 
 
 def test():
     test_values()
-    test_implicit_casts()
-    test_explicit_casts()
-    # Overflows
-    assert uint8_t(0xFF) + uint8_t(0x01) == uint8_t(0x00)
+    test_casts_implicit()
+    test_casts_explicit()
+    test_ops_binary()
+    test_ops_relational()
 
 
 if __name__ == '__main__':
