@@ -6,41 +6,62 @@ Native types.
 
 import operator
 
+def get_value(value, bits, signed):
+    if isinstance(value, int_t):
+        value = value.v
+    mask = 2**bits - 1
+    if signed and value & (1 << (bits - 1)):
+        return value | ~mask
+    else:
+        return value & mask
+
+# Promotions
+def get_bits(value):
+    return value.b if isinstance(value, int_t) else 64
+def get_signed(value):
+    return value.s if isinstance(value, int_t) else True
+
+def promote_bits(lhs, rhs):
+    return max(get_bits(lhs), get_bits(rhs))
+def promote_signed(lhs, rhs):
+    return get_signed(lhs) & get_signed(rhs)
+
+# Native Integer
 class int_t(object):
     def __init__(self, value=0, bits=32, signed=True):
         self.b = bits
         self.s = signed
         self.m = 2**bits - 1
-        if signed and value & (1 << (bits-1)):
-            self.v = value | ~self.m
-        else:
-            self.v = value & self.m
+        self.v = get_value(value, bits, signed)
 
     def __str__(self):
         return str(int(self))
     def __int__(self):
         return int(self.v)
 
+    # Operation
     def op_binary_lhs(self, rhs, op):
-        bits = self.b
-        signed = self.s
-        if isinstance(rhs, int_t):
-            bits = max(bits, rhs.b)
-            signed = self.s & rhs.s
-        result = op(self.v, rhs)
+        bits = promote_bits(self, rhs)
+        signed = promote_signed(self, rhs)
+        result = op(
+            get_value(self, bits, signed),
+            get_value(rhs, bits, signed))
         return int_t(result, bits, signed)
 
-    def op_binary_lhs(self, lhs, op):
-        bits = self.b
-        signed = self.s
-        if isinstance(lhs, int_t):
-            bits = max(bits, lhs.b)
-            signed = self.s & lhs.s
-        result = op(lhs, self.v)
+    def op_binary_rhs(self, lhs, op):
+        bits = promote_bits(self, lhs)
+        signed = promote_signed(self, lhs)
+        result = op(
+            get_value(lhs, bits, signed),
+            get_value(self, bits, signed))
         return int_t(result, bits, signed)
 
     def op_rel(self, rhs, op):
-        return op(self.v, int(rhs))
+        bits = promote_bits(self, rhs)
+        signed = promote_signed(self, rhs)
+        lhs_int = get_value(self, bits, signed)
+        rhs_int = get_value(rhs, bits, signed)
+        return op(lhs_int, rhs_int)
 
     def __add__       (self, rhs):  return self.op_binary_lhs(rhs, operator.__add__)
     def __sub__       (self, rhs):  return self.op_binary_lhs(rhs, operator.__sub__)
