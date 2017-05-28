@@ -7,11 +7,14 @@ Native types.
 import operator
 
 class int_t(object):
-    def __init__(self, value, bits, signed):
+    def __init__(self, value=0, bits=32, signed=True):
         self.b = bits
         self.s = signed
-        self.m = pow(2, bits) - 1
-        self.v = value & self.m
+        self.m = 2**bits - 1
+        if signed and value & (1 << (bits-1)):
+            self.v = value | ~self.m
+        else:
+            self.v = value & self.m
 
     def __str__(self):
         return str(int(self))
@@ -22,7 +25,7 @@ class int_t(object):
         bits = self.b
         signed = self.s
         if isinstance(rhs, int_t):
-            bits = min(bits, rhs.b)
+            bits = max(bits, rhs.b)
             signed = self.s & rhs.s
         result = op(self.v, rhs)
         return int_t(result, bits, signed)
@@ -31,7 +34,7 @@ class int_t(object):
         bits = self.b
         signed = self.s
         if isinstance(lhs, int_t):
-            bits = min(bits, lhs.b)
+            bits = max(bits, lhs.b)
             signed = self.s & lhs.s
         result = op(lhs, self.v)
         return int_t(result, bits, signed)
