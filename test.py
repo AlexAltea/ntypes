@@ -75,6 +75,10 @@ def test_ops_binary():
     assert uint8_t(3) // uint8_t(2) == uint8_t(1)
     assert uint8_t(7)  % uint8_t(5) == uint8_t(2)
 
+def test_ops_inplace():
+    v = uint32_t(0xFFFFFFFF)
+    v += uint64_t(1)
+    assert v == uint32_t(0)
 
 def test_ops_relational():
     # Casts
@@ -93,6 +97,7 @@ def test():
     test_casts_implicit()
     test_casts_explicit()
     test_ops_binary()
+    test_ops_inplace()
     test_ops_relational()
 
 
