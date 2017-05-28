@@ -50,7 +50,7 @@ def op_relational(lhs, rhs, op):
 
 # Native Integer
 class nint(object):
-    def __init__(self, value=0, bits=32, signed=True):
+    def __init__(self, value, bits, signed):
         self.b = bits
         self.s = signed
         self.m = (1 << bits) - 1
