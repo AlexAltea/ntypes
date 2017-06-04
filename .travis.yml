@@ -8,15 +8,13 @@ python:
   - 3.5
 
 install:
-  - pip install tox-travis
-  - pip install pytest
-  - pip install pytest-cov
+  - pip install coveralls
   - pip install .
 
 script:
   - python test.py
   - python setup.py check --strict --metadata
-  - tox
+  - coverage run --source=ntypes test.py
 
 after_success:
   - coveralls
