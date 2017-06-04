@@ -22,6 +22,9 @@ def ensure_native(lhs, rhs):
 # TODO
 
 # Operators
+def op_unary(value, op):
+    raise Exception('Unimplemented')
+
 def op_binary(lhs, rhs, op):
     lhs, rhs = ensure_native(lhs, rhs)
     raise Exception('Unimplemented')
@@ -51,6 +54,12 @@ class nfloat(object):
         result_int = op(self.v, value)
         self.set(result_int)
         return self
+
+    # Unary operations
+    def __abs__(self, value): return op_unary(self, operator.__abs__)
+    def __pos__(self, value): return op_unary(self, operator.__pos__)
+    def __neg__(self, value): return op_unary(self, operator.__neg__)
+    def __inv__(self, value): return op_unary(self, operator.__inv__)
 
     # Binary operations
     def __add__       (self, rhs):  return op_binary(self, rhs, operator.__add__)
