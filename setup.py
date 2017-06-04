@@ -4,7 +4,7 @@
 import setuptools
 
 setuptools.setup(
-    name='NTypes',
+    name='ntypes',
     version='1.0',
     author='Alexandro Sanchez Bach',
     author_email='alexandro@phi.nz',

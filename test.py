@@ -46,16 +46,16 @@ def test_values():
 
 def test_casts_implicit():
     # Signedness
-    assert (int_t( signed=True  ) + int_t( signed=True  )).s == True
-    assert (int_t( signed=True  ) + int_t( signed=False )).s == False
-    assert (int_t( signed=False ) + int_t( signed=True  )).s == False
-    assert (int_t( signed=False ) + int_t( signed=False )).s == False
+    assert (nint( signed=True  ) + nint( signed=True  )).s == True
+    assert (nint( signed=True  ) + nint( signed=False )).s == False
+    assert (nint( signed=False ) + nint( signed=True  )).s == False
+    assert (nint( signed=False ) + nint( signed=False )).s == False
 
     # Size
-    assert (int_t( bits=8  ) + int_t( bits = 8  )).b == 8
-    assert (int_t( bits=8  ) + int_t( bits = 16 )).b == 16
-    assert (int_t( bits=16 ) + int_t( bits = 8  )).b == 16
-    assert (int_t( bits=16 ) + int_t( bits = 16 )).b == 16
+    assert (nint( bits=8  ) + nint( bits = 8  )).b == 8
+    assert (nint( bits=8  ) + nint( bits = 16 )).b == 16
+    assert (nint( bits=16 ) + nint( bits = 8  )).b == 16
+    assert (nint( bits=16 ) + nint( bits = 16 )).b == 16
 
 
 def test_casts_explicit():

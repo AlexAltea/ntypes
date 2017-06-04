@@ -1,7 +1,13 @@
-sudo: false
 language: python
+
+notifications:
+  email: false
+
 python:
   - "2.7.11"
   - "3.5"
+
 install:
   - pip install .
+
+script: test

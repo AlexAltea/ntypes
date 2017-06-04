@@ -1,6 +1,10 @@
 Native Types
 ============
 
+![](https://api.travis-ci.org/AlexAltea/ntypes.svg?branch=master)
+![](https://coveralls.io/repos/AlexAltea/ntypes/badge.svg?branch=master)
+![](https://img.shields.io/pypi/v/ntypes.svg)
+
 Emulate native integer and floating-point types in Python 2.x and 3.x.
 
 Install the package via:
