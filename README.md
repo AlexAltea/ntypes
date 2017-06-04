@@ -1,11 +1,13 @@
 Native Types
 ============
 
-Native types for Python
+Emulate native integer and floating-point types in Python 2.x and 3.x.
 
-## Usage
+Install the package via:
 
-## Examples
+```bash
+pip install ntypes
+````
 
 ## Comparison
 
@@ -19,6 +21,10 @@ There are several alternatives to *ntypes*, specifically: `ctypes`, `numpy`, `fi
 | High-performance | -            | -        | -       | -          | Yes    |
 
 Other reasons might include that `numpy` is way too large dependency to be imported just for the sake of fixed-size integers.
+
+## Examples
+
+...
 
 ## FAQ
 
