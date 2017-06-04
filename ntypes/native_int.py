@@ -4,7 +4,6 @@
 Native types.
 """
 
-import copy
 import operator
 
 # Helpers
@@ -100,6 +99,7 @@ class nint(object):
     def __add__       (self, rhs):  return op_binary(self, rhs, operator.__add__)
     def __sub__       (self, rhs):  return op_binary(self, rhs, operator.__sub__)
     def __mul__       (self, rhs):  return op_binary(self, rhs, operator.__mul__)
+    def __div__       (self, rhs):  return op_binary(self, rhs, operator.__floordiv__)
     def __floordiv__  (self, rhs):  return op_binary(self, rhs, operator.__floordiv__)
     def __truediv__   (self, rhs):  return op_binary(self, rhs, operator.__floordiv__)
     def __mod__       (self, rhs):  return op_binary(self, rhs, operator.__mod__)
@@ -114,6 +114,7 @@ class nint(object):
     def __radd__      (self, lhs):  return op_binary(lhs, self, operator.__add__)
     def __rsub__      (self, lhs):  return op_binary(lhs, self, operator.__sub__)
     def __rmul__      (self, lhs):  return op_binary(lhs, self, operator.__mul__)
+    def __rdiv__      (self, lhs):  return op_binary(lhs, self, operator.__floordiv__)
     def __rfloordiv__ (self, lhs):  return op_binary(lhs, self, operator.__floordiv__)
     def __rtruediv__  (self, lhs):  return op_binary(lhs, self, operator.__floordiv__)
     def __rmod__      (self, lhs):  return op_binary(lhs, self, operator.__mod__)
@@ -128,6 +129,7 @@ class nint(object):
     def __iadd__      (self, v):  return self.op_binary_inplace(v, operator.__add__)
     def __isub__      (self, v):  return self.op_binary_inplace(v, operator.__sub__)
     def __imul__      (self, v):  return self.op_binary_inplace(v, operator.__mul__)
+    def __idiv__      (self, v):  return self.op_binary_inplace(v, operator.__floordiv__)
     def __ifloordiv__ (self, v):  return self.op_binary_inplace(v, operator.__floordiv__)
     def __itruediv__  (self, v):  return self.op_binary_inplace(v, operator.__floordiv__)
     def __imod__      (self, v):  return self.op_binary_inplace(v, operator.__mod__)
