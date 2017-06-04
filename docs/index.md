@@ -22,9 +22,12 @@ Following operators are implemented:
 * __Relational operators__: `==`, `!=`, `<`, `<=`, `=>`, `>`.
 
 This corresponds to the following Python operators:
-`__abs__`, `__pos__`, `__neg__`, `__inv__`, `__abs__`, `__add__`, `__sub__`, `__mul__`, `__truediv__`, `__mod__`, `__and__`, `__or__`, `__xor__`, `__lshift__`, `__rshift__`, `__radd__`, `__rsub__`, `__rmul__`, `__rfloordiv__`, `__rtruediv__`, `__rmod__`, `__rand__`, `__ror__`, `__rxor__`, `__rlshift__`, `__rrshift__`, `__iadd__`, `__isub__`, `__imul__`, `__ifloordiv__`, `__itruediv__`, `__imod__`, `__iand__`, `__ior__`, `__ixor__`, `__ilshift__`, `__irshift__`, `__eq__`, `__ne__`, `__lt__`, `__le__`, `__ge__`, `__gt__`.
+`__abs__`, `__pos__`, `__neg__`, `__inv__`, `__ceil__`, `__floor__`, `__round__`, `__trunc__`, `__abs__`, `__add__`, `__sub__`, `__mul__`, `__truediv__`, `__mod__`, `__and__`, `__or__`, `__xor__`, `__lshift__`, `__rshift__`, `__radd__`, `__rsub__`, `__rmul__`, `__rfloordiv__`, `__rtruediv__`, `__rmod__`, `__rand__`, `__ror__`, `__rxor__`, `__rlshift__`, `__rrshift__`, `__iadd__`, `__isub__`, `__imul__`, `__ifloordiv__`, `__itruediv__`, `__imod__`, `__iand__`, `__ior__`, `__ixor__`, `__ilshift__`, `__irshift__`, `__eq__`, `__ne__`, `__lt__`, `__le__`, `__ge__`, `__gt__`.
+
 
 Following operators have not been implemented as no-operation: `__ceil__`, `__floor__`, `__round__`, `__trunc__`.
+
+All operators except conversion and boolean operators will return a `nint`. To ensure this, and to provide a C-like syntax the `__truediv__` operator will invoke the `__floordiv__` operator.
 
 ### Conversion rules
 

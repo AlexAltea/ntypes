@@ -35,7 +35,7 @@ def op_relational(lhs, rhs, op):
 
 # Native Integer
 class nfloat(object):
-    def __init__(self, value, exponent, fraction):
+    def __init__(self, value=0.0, exponent=8, fraction=23):
         self.e = exponent
         self.f = fraction
         self.set(value)

@@ -10,4 +10,4 @@ python:
 install:
   - pip install .
 
-script: test
+script: python test.py
