@@ -96,14 +96,6 @@ class nint(object):
         return op_unary(self, operator.__neg__)
     def __invert__(self):
         return op_unary(self, operator.__invert__)
-    def __ceil__(self):
-        return op_unary(self, operator.__ceil__)
-    def __floor__(self):
-        return op_unary(self, operator.__floor__)
-    def __round__(self):
-        return op_unary(self, operator.__round__)
-    def __trunc__(self):
-        return op_unary(self, operator.__trunc__)
 
     # Binary operations
     def __add__(self, rhs):

@@ -113,13 +113,13 @@ def test_nint_ops_unary():
     assert +uint8(0x7F) == +int8(0x7F) == 0x7F
     assert +uint8(0x80) == +int8(0x80) == 0x80
     assert +uint8(0xFF) == +int8(0xFF) == 0xFF
-    # Minusuu
+    # Minus
     assert -uint8(0x00) == -int8(0x00) == 0x00
     assert -uint8(0x01) == -int8(0x01) == 0xFF
     assert -uint8(0x7F) == -int8(0x7F) == 0x81
     assert -uint8(0x80) == -int8(0x80) == 0x80
     assert -uint8(0xFF) == -int8(0xFF) == 0x01
-    # Notu
+    # Not
     assert ~uint8(0x00) == ~int8(0x00) == 0xFF
     assert ~uint8(0x01) == ~int8(0x01) == 0xFE
     assert ~uint8(0x7F) == ~int8(0x7F) == 0x80
@@ -129,19 +129,66 @@ def test_nint_ops_unary():
 def test_nint_ops_binary():
     # Casts
     assert uint8(0xFF) + 1 == uint8(0)
-    assert 1 + uint8(0xFF) == uint8(0)
-    # Binary ops
+    # Arithmetic
     assert uint8(3)  + uint8(2) == uint8(5)
     assert uint8(3)  - uint8(2) == uint8(1)
     assert uint8(3)  * uint8(2) == uint8(6)
     assert uint8(3)  / uint8(2) == uint8(1)
     assert uint8(3) // uint8(2) == uint8(1)
     assert uint8(7)  % uint8(5) == uint8(2)
+    assert uint8(3) ** uint8(4) == uint8(81)
+    # Logical
+    assert uint16(0xF0F0) & uint16(0xFF00) == uint16(0xF000)
+    assert uint16(0xF0F0) | uint16(0xFF00) == uint16(0xFFF0)
+    assert uint16(0xF0F0) ^ uint16(0xFF00) == uint16(0x0FF0)
+    # Shifts
+    assert uint16(0x1234) >> 4 == uint16(0x0123)
+    assert uint16(0x1234) << 4 == uint16(0x2340)
+
+def test_nint_ops_reflected():
+    # Casts
+    assert 1 + uint8(0xFF) == uint8(0)
+    # Arithmetic
+    assert 3  + uint8(2) == uint8(5)
+    assert 3  - uint8(2) == uint8(1)
+    assert 3  * uint8(2) == uint8(6)
+    assert 3  / uint8(2) == uint8(1)
+    assert 3 // uint8(2) == uint8(1)
+    assert 7  % uint8(5) == uint8(2)
+    assert 3 ** uint8(4) == uint8(81)
+    # Logical
+    assert 0xF0F0 & uint16(0xFF00) == uint16(0xF000)
+    assert 0xF0F0 | uint16(0xFF00) == uint16(0xFFF0)
+    assert 0xF0F0 ^ uint16(0xFF00) == uint16(0x0FF0)
+    # Shifts
+    assert 0x1234 >> 4 == uint16(0x0123)
+    assert 0x1234 << 4 == uint16(0x2340)
 
 def test_nint_ops_inplace():
-    v = uint32(0xFFFFFFFF)
-    v += uint64(1)
-    assert v == uint32(0)
+    # Casts
+    v = nint( signed=True  );  v += nint( signed=True  );  assert v.s == True
+    v = nint( signed=True  );  v += nint( signed=False );  assert v.s == True
+    v = nint( signed=False );  v += nint( signed=True  );  assert v.s == False
+    v = nint( signed=False );  v += nint( signed=False );  assert v.s == False
+    v = nint( bits=8  );       v += nint( bits=8  );       assert v.b == 8
+    v = nint( bits=8  );       v += nint( bits=16 );       assert v.b == 8
+    v = nint( bits=16 );       v += nint( bits=8  );       assert v.b == 16
+    v = nint( bits=16 );       v += nint( bits=16 );       assert v.b == 16
+    # Arithmetic
+    v = uint8(3);  v  += uint8(2);  assert v == uint8(5)
+    v = uint8(3);  v  -= uint8(2);  assert v == uint8(1)
+    v = uint8(3);  v  *= uint8(2);  assert v == uint8(6)
+    v = uint8(3);  v  /= uint8(2);  assert v == uint8(1)
+    v = uint8(3);  v //= uint8(2);  assert v == uint8(1)
+    v = uint8(7);  v  %= uint8(5);  assert v == uint8(2)
+    v = uint8(3);  v **= uint8(4);  assert v == uint8(81)
+    # Logical
+    v = uint16(0xF0F0);  v &= uint16(0xFF00);  assert v == uint16(0xF000)
+    v = uint16(0xF0F0);  v |= uint16(0xFF00);  assert v == uint16(0xFFF0)
+    v = uint16(0xF0F0);  v ^= uint16(0xFF00);  assert v == uint16(0x0FF0)
+    # Shifts
+    v = uint16(0x1234);  v >>= 4;  assert v == uint16(0x0123)
+    v = uint16(0x1234);  v <<= 4;  assert v == uint16(0x2340)
 
 def test_nint_ops_relational():
     # Casts
@@ -164,6 +211,7 @@ def test_nint():
     test_nint_ops_type()
     test_nint_ops_unary()
     test_nint_ops_binary()
+    test_nint_ops_reflected()
     test_nint_ops_inplace()
     test_nint_ops_relational()
 
