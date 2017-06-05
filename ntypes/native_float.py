@@ -11,33 +11,41 @@ import struct
 from .native_int import *
 
 # Helpers
-def get_value(value, bits, signed):
-    raise Exception('Unimplemented')
-
 def ensure_native(lhs, rhs):
     assert isinstance(lhs, nfloat) or isinstance(rhs, nfloat)
     if not isinstance(lhs, nfloat):
-        lhs = nfloat(lhs, rhs.e, rhs.f)
+        lhs = nfloat(lhs, rhs.e, rhs.m)
     if not isinstance(rhs, nfloat):
-        rhs = nfloat(rhs, lhs.e, lhs.f)
+        rhs = nfloat(rhs, lhs.e, lhs.m)
     return lhs, rhs
 
 # Promotions
-# TODO
+def promote_exponent(lhs, rhs):
+    return max(lhs.e, rhs.e)
+def promote_mantissa(lhs, rhs):
+    return max(lhs.m, rhs.m)
 
 # Operators
 def op_unary(value, op):
-    raise Exception('Unimplemented')
+    exponent = value.e
+    mantissa = value.m
+    result = op(float(value))
+    return nfloat(result, exponent, mantissa)
 
 def op_binary(lhs, rhs, op):
     lhs, rhs = ensure_native(lhs, rhs)
-    raise Exception('Unimplemented')
+    exponent = promote_exponent(lhs, rhs)
+    mantissa = promote_mantissa(lhs, rhs)
+    result = op(float(lhs), float(rhs))
+    return nfloat(result, exponent, mantissa)
 
 def op_relational(lhs, rhs, op):
     lhs, rhs = ensure_native(lhs, rhs)
-    raise Exception('Unimplemented')
+    exponent = promote_exponent(lhs, rhs)
+    mantissa = promote_mantissa(lhs, rhs)
+    return op(float(lhs), float(rhs))
 
-# Native Integer
+# Native Float
 class nfloat(object):
     def __init__(self, value=0.0, exponent=8, mantissa=23):
         assert exponent <= 11, 'Support up to float64 only'
@@ -57,7 +65,7 @@ class nfloat(object):
         self.vs.set(value >> (63))
         self.ve.set(value >> (63 - self.e))
         self.vm.set(value >> (52 - self.m))
-        self.vm |= (value >> (51 - self.m)) & 1
+        self.vm |= (value >> (51 - min(51, self.m))) & 1
 
     def __str__(self):
         return str(float(self))
@@ -83,16 +91,16 @@ class nfloat(object):
         return sign * value
 
     def op_binary_inplace(self, value, op):
-        result_int = op(self.v, value)
-        self.set(result_int)
+        result_float = op(float(self), float(value))
+        self.set(result_float)
         return self
 
     # Unary operations
-    def __abs__(self, value):
+    def __abs__(self):
         return op_unary(self, operator.__abs__)
-    def __pos__(self, value):
+    def __pos__(self):
         return op_unary(self, operator.__pos__)
-    def __neg__(self, value):
+    def __neg__(self):
         return op_unary(self, operator.__neg__)
 
     # Binary operations
@@ -102,6 +110,8 @@ class nfloat(object):
         return op_binary(self, rhs, operator.__sub__)
     def __mul__(self, rhs):
         return op_binary(self, rhs, operator.__mul__)
+    def __div__(self, rhs):
+        return op_binary(self, rhs, operator.__div__)
     def __floordiv__(self, rhs):
         return op_binary(self, rhs, operator.__floordiv__)
     def __truediv__(self, rhs):
@@ -118,6 +128,8 @@ class nfloat(object):
         return op_binary(lhs, self, operator.__sub__)
     def __rmul__(self, lhs):
         return op_binary(lhs, self, operator.__mul__)
+    def __rdiv__(self, lhs):
+        return op_binary(lhs, self, operator.__div__)
     def __rfloordiv__(self, lhs):
         return op_binary(lhs, self, operator.__floordiv__)
     def __rtruediv__(self, lhs):
@@ -134,6 +146,8 @@ class nfloat(object):
         return self.op_binary_inplace(v, operator.__sub__)
     def __imul__(self, v):
         return self.op_binary_inplace(v, operator.__mul__)
+    def __idiv__(self, v):
+        return self.op_binary_inplace(v, operator.__div__)
     def __ifloordiv__(self, v):
         return self.op_binary_inplace(v, operator.__floordiv__)
     def __itruediv__(self, v):

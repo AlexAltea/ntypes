@@ -50,9 +50,9 @@ def op_relational(lhs, rhs, op):
     lhs, rhs = ensure_native(lhs, rhs)
     bits = promote_bits(lhs, rhs)
     signed = promote_signed(lhs, rhs)
-    lhs_int = get_value(lhs, bits, signed)
-    rhs_int = get_value(rhs, bits, signed)
-    return op(lhs_int, rhs_int)
+    return op(
+        get_value(lhs, bits, signed),
+        get_value(rhs, bits, signed))
 
 # Native Integer
 class nint(object):
