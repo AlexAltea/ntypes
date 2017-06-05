@@ -86,14 +86,14 @@ class nint(object):
         return self.v.__index__()
 
     # Unary operations
-    def __abs__    (self, value):  return op_unary(self, operator.__abs__)
-    def __pos__    (self, value):  return op_unary(self, operator.__pos__)
-    def __neg__    (self, value):  return op_unary(self, operator.__neg__)
-    def __inv__    (self, value):  return op_unary(self, operator.__inv__)
-    def __ceil__   (self, value):  return op_unary(self, operator.__ceil__)
-    def __floor__  (self, value):  return op_unary(self, operator.__floor__)
-    def __round__  (self, value):  return op_unary(self, operator.__round__)
-    def __trunc__  (self, value):  return op_unary(self, operator.__trunc__)
+    def __abs__    (self):  return op_unary(self, operator.__abs__)
+    def __pos__    (self):  return op_unary(self, operator.__pos__)
+    def __neg__    (self):  return op_unary(self, operator.__neg__)
+    def __invert__ (self):  return op_unary(self, operator.__invert__)
+    def __ceil__   (self):  return op_unary(self, operator.__ceil__)
+    def __floor__  (self):  return op_unary(self, operator.__floor__)
+    def __round__  (self):  return op_unary(self, operator.__round__)
+    def __trunc__  (self):  return op_unary(self, operator.__trunc__)
 
     # Binary operations
     def __add__       (self, rhs):  return op_binary(self, rhs, operator.__add__)
@@ -141,12 +141,18 @@ class nint(object):
     def __irshift__   (self, v):  return self.op_binary_inplace(v, operator.__rshift__)
 
     # Boolean operations
-    def __eq__        (self, rhs):  return op_relational(self, rhs, operator.__eq__)
-    def __ne__        (self, rhs):  return op_relational(self, rhs, operator.__ne__)
-    def __lt__        (self, rhs):  return op_relational(self, rhs, operator.__lt__)
-    def __le__        (self, rhs):  return op_relational(self, rhs, operator.__le__)
-    def __ge__        (self, rhs):  return op_relational(self, rhs, operator.__ge__)
-    def __gt__        (self, rhs):  return op_relational(self, rhs, operator.__gt__)
+    def __eq__(self, rhs):
+        return op_relational(self, rhs, operator.__eq__)
+    def __ne__(self, rhs):
+        return op_relational(self, rhs, operator.__ne__)
+    def __lt__(self, rhs):
+        return op_relational(self, rhs, operator.__lt__)
+    def __le__(self, rhs):
+        return op_relational(self, rhs, operator.__le__)
+    def __ge__(self, rhs):
+        return op_relational(self, rhs, operator.__ge__)
+    def __gt__(self, rhs):
+        return op_relational(self, rhs, operator.__gt__)
 
 
 # Shorthands
