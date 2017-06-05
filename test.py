@@ -46,21 +46,6 @@ def test_nint_values():
     assert int(uint64(-1)) == 0xFFFFFFFFFFFFFFFF
     assert int(uint64(0x10000000000000000)) == 0
 
-def test_nint_casts_implicit():
-    # Signedness
-    assert (nint( signed=True  ) + nint( signed=True  )).s == True
-    assert (nint( signed=True  ) + nint( signed=False )).s == False
-    assert (nint( signed=False ) + nint( signed=True  )).s == False
-    assert (nint( signed=False ) + nint( signed=False )).s == False
-    # Size
-    assert (nint( bits=8  ) + nint( bits = 8  )).b == 8
-    assert (nint( bits=8  ) + nint( bits = 16 )).b == 16
-    assert (nint( bits=16 ) + nint( bits = 8  )).b == 16
-    assert (nint( bits=16 ) + nint( bits = 16 )).b == 16
-
-def test_nint_casts_explicit():
-    pass
-
 def test_nint_ops_type():
     # String
     assert str(uint8(0x00)) == str(int8(0x00)) == str(0)
@@ -127,8 +112,26 @@ def test_nint_ops_unary():
     assert ~uint8(0xFF) == ~int8(0xFF) == 0x00
 
 def test_nint_ops_binary():
-    # Casts
-    assert uint8(0xFF) + 1 == uint8(0)
+    # Signedness (nint + nint)
+    assert (nint( signed=True  ) + nint( signed=True  )).s == True
+    assert (nint( signed=True  ) + nint( signed=False )).s == False
+    assert (nint( signed=False ) + nint( signed=True  )).s == False
+    assert (nint( signed=False ) + nint( signed=False )).s == False
+    # Size (nint + nint)
+    assert (nint( bits=8  ) + nint( bits = 8  )).b == 8
+    assert (nint( bits=8  ) + nint( bits = 16 )).b == 16
+    assert (nint( bits=16 ) + nint( bits = 8  )).b == 16
+    assert (nint( bits=16 ) + nint( bits = 16 )).b == 16
+    # Signedness (nint + int)
+    assert (nint( signed=True  ) + 0).s == True
+    assert (nint( signed=True  ) + 0).s == True
+    assert (nint( signed=False ) + 0).s == False
+    assert (nint( signed=False ) + 0).s == False
+    # Size (nint + int)
+    assert (nint( bits=8  ) + 0).b == 8
+    assert (nint( bits=8  ) + 0).b == 8
+    assert (nint( bits=16 ) + 0).b == 16
+    assert (nint( bits=16 ) + 0).b == 16
     # Arithmetic
     assert uint8(3)  + uint8(2) == uint8(5)
     assert uint8(3)  - uint8(2) == uint8(1)
@@ -146,8 +149,16 @@ def test_nint_ops_binary():
     assert uint16(0x1234) << 4 == uint16(0x2340)
 
 def test_nint_ops_reflected():
-    # Casts
-    assert 1 + uint8(0xFF) == uint8(0)
+    # Signedness (int + nint)
+    assert (0 + nint( signed=True  )).s == True
+    assert (0 + nint( signed=False )).s == False
+    assert (0 + nint( signed=True  )).s == True
+    assert (0 + nint( signed=False )).s == False
+    # Size (int + nint)
+    assert (0 + nint( bits = 8  )).b == 8
+    assert (0 + nint( bits = 16 )).b == 16
+    assert (0 + nint( bits = 8  )).b == 8
+    assert (0 + nint( bits = 16 )).b == 16
     # Arithmetic
     assert 3  + uint8(2) == uint8(5)
     assert 3  - uint8(2) == uint8(1)
@@ -161,8 +172,8 @@ def test_nint_ops_reflected():
     assert 0xF0F0 | uint16(0xFF00) == uint16(0xFFF0)
     assert 0xF0F0 ^ uint16(0xFF00) == uint16(0x0FF0)
     # Shifts
-    assert 0x1234 >> 4 == uint16(0x0123)
-    assert 0x1234 << 4 == uint16(0x2340)
+    assert 0x1234 >> uint16(4) == uint16(0x0123)
+    assert 0x1234 << uint16(4) == uint16(0x2340)
 
 def test_nint_ops_inplace():
     # Casts
@@ -199,6 +210,26 @@ def test_nint_ops_relational():
     assert uint8(0x80) >  int8(0x7F)
     assert  int8(0x80) > uint8(0x7F)
     assert uint8(0x80) > uint8(0x7F)
+    # Operations
+    assert (uint8(0x00) == uint8(0x00)) == True
+    assert (uint8(0x01) == uint8(0x00)) == False
+    assert (uint8(0x00) == uint8(0x01)) == False
+    assert (uint8(0x00) != uint8(0x00)) == False
+    assert (uint8(0x01) != uint8(0x00)) == True
+    assert (uint8(0x00) != uint8(0x01)) == True
+    assert (uint8(0x00) <  uint8(0x00)) == False
+    assert (uint8(0x01) <  uint8(0x00)) == False
+    assert (uint8(0x00) <  uint8(0x01)) == True
+    assert (uint8(0x00) <= uint8(0x00)) == True
+    assert (uint8(0x01) <= uint8(0x00)) == False
+    assert (uint8(0x00) <= uint8(0x01)) == True
+    assert (uint8(0x00) >  uint8(0x00)) == False
+    assert (uint8(0x01) >  uint8(0x00)) == True
+    assert (uint8(0x00) >  uint8(0x01)) == False
+    assert (uint8(0x00) >= uint8(0x00)) == True
+    assert (uint8(0x01) >= uint8(0x00)) == True
+    assert (uint8(0x00) >= uint8(0x01)) == False
+
 
 #######################################
 # Test: Native Floating-point values  #
@@ -206,8 +237,6 @@ def test_nint_ops_relational():
 
 def test_nint():
     test_nint_values()
-    test_nint_casts_implicit()
-    test_nint_casts_explicit()
     test_nint_ops_type()
     test_nint_ops_unary()
     test_nint_ops_binary()
