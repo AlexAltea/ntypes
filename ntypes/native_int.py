@@ -78,67 +78,116 @@ class nint(object):
         return str(int(self))
     def __int__(self):
         return int(self.v)
-    def __bool__(self, value):
+    def __bool__(self):
         return bool(self.v)
-    def __float__(self, value):
+    def __nonzero__(self):
+        return bool(self.v)
+    def __float__(self):
         return float(self.v)
-    def __index__(self, value):
+    def __index__(self):
         return self.v.__index__()
 
     # Unary operations
-    def __abs__    (self):  return op_unary(self, operator.__abs__)
-    def __pos__    (self):  return op_unary(self, operator.__pos__)
-    def __neg__    (self):  return op_unary(self, operator.__neg__)
-    def __invert__ (self):  return op_unary(self, operator.__invert__)
-    def __ceil__   (self):  return op_unary(self, operator.__ceil__)
-    def __floor__  (self):  return op_unary(self, operator.__floor__)
-    def __round__  (self):  return op_unary(self, operator.__round__)
-    def __trunc__  (self):  return op_unary(self, operator.__trunc__)
+    def __abs__(self):
+        return op_unary(self, operator.__abs__)
+    def __pos__(self):
+        return op_unary(self, operator.__pos__)
+    def __neg__(self):
+        return op_unary(self, operator.__neg__)
+    def __invert__(self):
+        return op_unary(self, operator.__invert__)
+    def __ceil__(self):
+        return op_unary(self, operator.__ceil__)
+    def __floor__(self):
+        return op_unary(self, operator.__floor__)
+    def __round__(self):
+        return op_unary(self, operator.__round__)
+    def __trunc__(self):
+        return op_unary(self, operator.__trunc__)
 
     # Binary operations
-    def __add__       (self, rhs):  return op_binary(self, rhs, operator.__add__)
-    def __sub__       (self, rhs):  return op_binary(self, rhs, operator.__sub__)
-    def __mul__       (self, rhs):  return op_binary(self, rhs, operator.__mul__)
-    def __div__       (self, rhs):  return op_binary(self, rhs, operator.__floordiv__)
-    def __floordiv__  (self, rhs):  return op_binary(self, rhs, operator.__floordiv__)
-    def __truediv__   (self, rhs):  return op_binary(self, rhs, operator.__floordiv__)
-    def __mod__       (self, rhs):  return op_binary(self, rhs, operator.__mod__)
-    def __pow__       (self, rhs):  return op_binary(self, rhs, operator.__pow__)
-    def __and__       (self, rhs):  return op_binary(self, rhs, operator.__and__)
-    def __or__        (self, rhs):  return op_binary(self, rhs, operator.__or__)
-    def __xor__       (self, rhs):  return op_binary(self, rhs, operator.__xor__)
-    def __lshift__    (self, rhs):  return op_binary(self, rhs, operator.__lshift__)
-    def __rshift__    (self, rhs):  return op_binary(self, rhs, operator.__rshift__)
+    def __add__(self, rhs):
+        return op_binary(self, rhs, operator.__add__)
+    def __sub__(self, rhs):
+        return op_binary(self, rhs, operator.__sub__)
+    def __mul__(self, rhs):
+        return op_binary(self, rhs, operator.__mul__)
+    def __div__(self, rhs):
+        return op_binary(self, rhs, operator.__floordiv__)
+    def __floordiv__(self, rhs):
+        return op_binary(self, rhs, operator.__floordiv__)
+    def __truediv__(self, rhs):
+        return op_binary(self, rhs, operator.__floordiv__)
+    def __mod__(self, rhs):
+        return op_binary(self, rhs, operator.__mod__)
+    def __pow__(self, rhs):
+        return op_binary(self, rhs, operator.__pow__)
+    def __and__(self, rhs):
+        return op_binary(self, rhs, operator.__and__)
+    def __or__(self, rhs):
+        return op_binary(self, rhs, operator.__or__)
+    def __xor__(self, rhs):
+        return op_binary(self, rhs, operator.__xor__)
+    def __lshift__(self, rhs):
+        return op_binary(self, rhs, operator.__lshift__)
+    def __rshift__(self, rhs):
+        return op_binary(self, rhs, operator.__rshift__)
 
     # Reflected binary operation
-    def __radd__      (self, lhs):  return op_binary(lhs, self, operator.__add__)
-    def __rsub__      (self, lhs):  return op_binary(lhs, self, operator.__sub__)
-    def __rmul__      (self, lhs):  return op_binary(lhs, self, operator.__mul__)
-    def __rdiv__      (self, lhs):  return op_binary(lhs, self, operator.__floordiv__)
-    def __rfloordiv__ (self, lhs):  return op_binary(lhs, self, operator.__floordiv__)
-    def __rtruediv__  (self, lhs):  return op_binary(lhs, self, operator.__floordiv__)
-    def __rmod__      (self, lhs):  return op_binary(lhs, self, operator.__mod__)
-    def __rpow__      (self, lhs):  return op_binary(lhs, self, operator.__pow__)
-    def __rand__      (self, lhs):  return op_binary(lhs, self, operator.__and__)
-    def __ror__       (self, lhs):  return op_binary(lhs, self, operator.__or__)
-    def __rxor__      (self, lhs):  return op_binary(lhs, self, operator.__xor__)
-    def __rlshift__   (self, lhs):  return op_binary(lhs, self, operator.__lshift__)
-    def __rrshift__   (self, lhs):  return op_binary(lhs, self, operator.__rshift__)
+    def __radd__(self, lhs):
+        return op_binary(lhs, self, operator.__add__)
+    def __rsub__(self, lhs):
+        return op_binary(lhs, self, operator.__sub__)
+    def __rmul__(self, lhs):
+        return op_binary(lhs, self, operator.__mul__)
+    def __rdiv__(self, lhs):
+        return op_binary(lhs, self, operator.__floordiv__)
+    def __rfloordiv__(self, lhs):
+        return op_binary(lhs, self, operator.__floordiv__)
+    def __rtruediv__(self, lhs):
+        return op_binary(lhs, self, operator.__floordiv__)
+    def __rmod__(self, lhs):
+        return op_binary(lhs, self, operator.__mod__)
+    def __rpow__(self, lhs):
+        return op_binary(lhs, self, operator.__pow__)
+    def __rand__(self, lhs):
+        return op_binary(lhs, self, operator.__and__)
+    def __ror__(self, lhs):
+        return op_binary(lhs, self, operator.__or__)
+    def __rxor__(self, lhs):
+        return op_binary(lhs, self, operator.__xor__)
+    def __rlshift__(self, lhs):
+        return op_binary(lhs, self, operator.__lshift__)
+    def __rrshift__(self, lhs):
+        return op_binary(lhs, self, operator.__rshift__)
 
     # In-place operations
-    def __iadd__      (self, v):  return self.op_binary_inplace(v, operator.__add__)
-    def __isub__      (self, v):  return self.op_binary_inplace(v, operator.__sub__)
-    def __imul__      (self, v):  return self.op_binary_inplace(v, operator.__mul__)
-    def __idiv__      (self, v):  return self.op_binary_inplace(v, operator.__floordiv__)
-    def __ifloordiv__ (self, v):  return self.op_binary_inplace(v, operator.__floordiv__)
-    def __itruediv__  (self, v):  return self.op_binary_inplace(v, operator.__floordiv__)
-    def __imod__      (self, v):  return self.op_binary_inplace(v, operator.__mod__)
-    def __ipow__      (self, v):  return self.op_binary_inplace(v, operator.__pow__)
-    def __iand__      (self, v):  return self.op_binary_inplace(v, operator.__and__)
-    def __ior__       (self, v):  return self.op_binary_inplace(v, operator.__or__)
-    def __ixor__      (self, v):  return self.op_binary_inplace(v, operator.__xor__)
-    def __ilshift__   (self, v):  return self.op_binary_inplace(v, operator.__lshift__)
-    def __irshift__   (self, v):  return self.op_binary_inplace(v, operator.__rshift__)
+    def __iadd__(self, v):
+        return self.op_binary_inplace(v, operator.__add__)
+    def __isub__(self, v):
+        return self.op_binary_inplace(v, operator.__sub__)
+    def __imul__(self, v):
+        return self.op_binary_inplace(v, operator.__mul__)
+    def __idiv__(self, v):
+        return self.op_binary_inplace(v, operator.__floordiv__)
+    def __ifloordiv__(self, v):
+        return self.op_binary_inplace(v, operator.__floordiv__)
+    def __itruediv__(self, v):
+        return self.op_binary_inplace(v, operator.__floordiv__)
+    def __imod__(self, v):
+        return self.op_binary_inplace(v, operator.__mod__)
+    def __ipow__(self, v):
+        return self.op_binary_inplace(v, operator.__pow__)
+    def __iand__(self, v):
+        return self.op_binary_inplace(v, operator.__and__)
+    def __ior__(self, v):
+        return self.op_binary_inplace(v, operator.__or__)
+    def __ixor__(self, v):
+        return self.op_binary_inplace(v, operator.__xor__)
+    def __ilshift__(self, v):
+        return self.op_binary_inplace(v, operator.__lshift__)
+    def __irshift__(self, v):
+        return self.op_binary_inplace(v, operator.__rshift__)
 
     # Boolean operations
     def __eq__(self, rhs):

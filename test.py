@@ -61,6 +61,39 @@ def test_nint_casts_implicit():
 def test_nint_casts_explicit():
     pass
 
+def test_nint_ops_type():
+    # String
+    assert str(uint8(0x00)) == str(int8(0x00)) == str(0)
+    assert str(uint8(0x01)) == str(int8(0x01)) == str(1)
+    assert str(uint8(0x7F)) == str(int8(0x7F)) == str(127)
+    assert str(uint8(0xFF)) == str(255)
+    assert str( int8(0xFF)) == str(-1)
+    # Integer
+    assert int(uint8(0x00)) == int(int8(0x00)) == 0
+    assert int(uint8(0x01)) == int(int8(0x01)) == 1
+    assert int(uint8(0x7F)) == int(int8(0x7F)) == 127
+    assert int(uint8(0xFF)) == 255
+    assert int( int8(0xFF)) == -1
+    # Boolean
+    assert bool(uint8(0x00)) == bool(int8(0x00)) == False
+    assert bool(uint8(0x01)) == bool(int8(0x01)) == True
+    assert bool(uint8(0x7F)) == bool(int8(0x7F)) == True
+    assert bool(uint8(0x80)) == bool(int8(0x80)) == True
+    assert bool(uint8(0xFF)) == bool(int8(0xFF)) == True
+    # Float
+    assert float(uint8(0x00)) == float(int8(0x00)) == 0.0
+    assert float(uint8(0x01)) == float(int8(0x01)) == 1.0
+    assert float(uint8(0x7F)) == float(int8(0x7F)) == 127.0
+    assert float(uint8(0xFF)) == 255.0
+    assert float( int8(0xFF)) == -1.0
+    # Index
+    array = list(range(256 + 1))
+    assert array[uint8(0x00)] == array[int8(0x00)] == 0x00
+    assert array[uint8(0x01)] == array[int8(0x01)] == 0x01
+    assert array[uint8(0x7F)] == array[int8(0x7F)] == 0x7F
+    assert array[uint8(0xFF)] == 0xFF
+    assert array[ int8(0xFF)] == 0x100
+
 def test_nint_ops_unary():
     # Casts
     assert (~nint( signed=True  )).s == True
@@ -128,6 +161,7 @@ def test_nint():
     test_nint_values()
     test_nint_casts_implicit()
     test_nint_casts_explicit()
+    test_nint_ops_type()
     test_nint_ops_unary()
     test_nint_ops_binary()
     test_nint_ops_inplace()
