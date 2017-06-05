@@ -57,6 +57,7 @@ def op_relational(lhs, rhs, op):
 # Native Integer
 class nint(object):
     def __init__(self, value=0, bits=32, signed=True):
+        assert bits >= 1, 'Support down to int1 only'
         self.b = bits
         self.s = signed
         self.m = (1 << bits) - 1
@@ -72,6 +73,13 @@ class nint(object):
         result_int = op(self.v, value)
         self.set(result_int)
         return self
+
+    # Utilities
+    def min(self):
+        return -(2 ** (self.b - 1)) * int(self.s)
+
+    def max(self):
+        return (2 ** (self.b - int(self.s))) - 1
 
     # Conversion operations
     def __str__(self):

@@ -235,6 +235,21 @@ def test_nint_ops_relational():
 # Test: Native Floating-point values  #
 #######################################
 
+def test_nfloat_values():
+    assert float(float32(-1.0)) == -1.0
+    assert float(float32(-0.0)) == -0.0
+    assert float(float32(+0.0)) == +0.0
+    assert float(float32(+1.0)) == +1.0
+    # Precision
+    import math
+    assert float(float32(math.e)) != math.e
+    assert float(float32(math.pi)) != math.pi
+
+
+#######################################
+# Test: Native Types                  #
+#######################################
+
 def test_nint():
     test_nint_values()
     test_nint_ops_type()
@@ -245,7 +260,7 @@ def test_nint():
     test_nint_ops_relational()
 
 def test_nfloat():
-    return
+    test_nfloat_values()
 
 def test():
     test_nint()
