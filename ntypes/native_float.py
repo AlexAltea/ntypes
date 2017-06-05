@@ -72,9 +72,9 @@ class nfloat(object):
     def __int__(self):
         return int(float(self))
     def __bool__(self):
-        return bool(self.v)
+        return bool(float(self))
     def __nonzero__(self):
-        return bool(self.v)
+        return bool(float(self))
     def __float__(self):
         denormalized = (self.ve == 0)
         # Exponent
@@ -175,7 +175,7 @@ class nfloat(object):
 # Shorthands
 class float16(nfloat):
     def __init__(self, value=0.0):
-        super(float32, self).__init__(value, exponent=5, mantissa=10)
+        super(float16, self).__init__(value, exponent=5, mantissa=10)
 class float32(nfloat):
     def __init__(self, value=0.0):
         super(float32, self).__init__(value, exponent=8, mantissa=23)

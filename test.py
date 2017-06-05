@@ -238,6 +238,10 @@ def test_nint_ops_relational():
 #######################################
 
 def test_nfloat_values():
+    assert float(float16(-1.0)) == -1.0
+    assert float(float16(-0.0)) == -0.0
+    assert float(float16(+0.0)) == +0.0
+    assert float(float16(+1.0)) == +1.0
     assert float(float32(-1.0)) == -1.0
     assert float(float32(-0.0)) == -0.0
     assert float(float32(+0.0)) == +0.0
@@ -246,6 +250,36 @@ def test_nfloat_values():
     import math
     assert float(float32(math.e)) != math.e
     assert float(float32(math.pi)) != math.pi
+
+def test_nfloat_ops_type():
+    inf = float('inf')
+    nan = float('nan')
+    # String
+    #assert str(float32(-0.5)) == str(-0.5)
+    assert str(float32(-0.0)) == str(-0.0)
+    assert str(float32(+0.0)) == str(+0.0)
+    assert str(float32(+1.0)) == str(+1.0)
+    #assert str(float32(+inf)) == str(+inf)
+    #assert str(float32(+nan)) == str(+nan)
+    # Integer
+    #assert int(float32(-0.5)) == int(-0.5)
+    assert int(float32(-0.0)) == int(-0.0)
+    assert int(float32(+0.0)) == int(+0.0)
+    assert int(float32(+1.0)) == int(+1.0)
+    # Boolean
+    assert bool(float32(-0.5)) == bool(-0.5)
+    assert bool(float32(-0.0)) == bool(-0.0)
+    assert bool(float32(+0.0)) == bool(+0.0)
+    assert bool(float32(+1.0)) == bool(+1.0)
+    #assert bool(float32(+inf)) == bool(+inf)
+    #assert bool(float32(+nan)) == bool(+nan)
+    # Float
+    #assert float(float32(-0.5)) == float(-0.5)
+    assert float(float32(-0.0)) == float(-0.0)
+    assert float(float32(+0.0)) == float(+0.0)
+    assert float(float32(+1.0)) == float(+1.0)
+    #assert float(float32(+inf)) == float(+inf)
+    #assert float(float32(+nan)) == float(+nan)
 
 def test_nfloat_ops_unary():
     inf = float('inf')
@@ -404,6 +438,7 @@ def test_nint():
 
 def test_nfloat():
     test_nfloat_values()
+    test_nfloat_ops_type()
     test_nfloat_ops_unary()
     test_nfloat_ops_binary()
     test_nfloat_ops_reflected()
