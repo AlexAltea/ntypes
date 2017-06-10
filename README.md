@@ -3,7 +3,7 @@ Native Types
 
 [![](https://api.travis-ci.org/AlexAltea/ntypes.svg?branch=master)](https://travis-ci.org/AlexAltea/ntypes/)
 [![](https://coveralls.io/repos/github/AlexAltea/ntypes/badge.svg?branch=master)](https://coveralls.io/github/AlexAltea/ntypes?branch=master)
-[![](https://img.shields.io/pypi/v/ntypes.svg)](https://pypi.python.org/pypi/ntypes)
+[![](https://img.shields.io/pypi/v/nativetypes.svg)](https://pypi.python.org/pypi/nativetypes)
 
 Emulate native integer and floating-point types in Python 2.x and 3.x.
 
@@ -12,6 +12,7 @@ Install the package via:
 ```bash
 pip install nativetypes
 ````
+
 
 ## Comparison
 
@@ -27,6 +28,24 @@ There are several alternatives to *ntypes*, specifically: `ctypes`, `numpy`, `fi
 
 Other reasons might include that `numpy` is way too large dependency to be imported just for the sake of fixed-size integers. Note that high-performance is not a goal for this library.
 
+
+## FAQ
+
+> __What's the point of this library?__
+
+This library is syntactic sugar for developers and reverse-engineers that want to port code from C/C++/ASM into Python and need all this low-level quirks: Overflows, underflows, casts, etc.
+
+Although Python prevents many headaches with its arbitrarily large integers, writing code equivalent to functions written in C/C++/ASM means masking every operation, and doing dozens of conversions manually between distinct types. This library does that work for you.
+
+> __Where can read about the API?__
+
+The documentation is quite incomplete at this moment. Check the examples below or check the tests.
+
+>  __Why is this package nativetypes__?
+
+I'm not good with naming. Ideally, I would have registered *ntypes* instead, but that one was apparently taken.
+
+
 ## Examples
 
 * Fast inverse square root (see [[1]](https://en.wikipedia.org/wiki/Fast_inverse_square_root#Overview_of_the_code))
@@ -36,7 +55,7 @@ def rsqrt(number: float32):
     i = reinterpret_cast(int32, number)
     i = 0x5F3759DF - (i >> 1)
     y = reinterpret_cast(float32, i)
-    y *= (1.5f - (0.5f * number * y * y))
+    y *= (1.5 - (0.5 * number * y * y))
     return y
 ```
 
