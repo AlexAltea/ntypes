@@ -14,7 +14,7 @@ install:
 script:
   - python test.py
   - python setup.py check --strict --metadata
-  - coverage run --source=ntypes test.py
+  - coverage run --source=nativetypes test.py
 
 after_success:
   - coveralls
