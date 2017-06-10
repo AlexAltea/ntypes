@@ -58,6 +58,24 @@ class nfloat(object):
         self.vm = nint(bits=mantissa, signed=False)
         self.set(value)
 
+    # Bytes conversion
+    @staticmethod
+    def from_bytes(data, byteorder, exponent, mantissa):
+        value = int.from_bytes(data, byteorder)
+        result = nfloat(0.0, exponent, mantissa)
+        result.vs.set(value >> (mantissa + exponent))
+        result.ve.set(value >> (mantissa))
+        result.vm.set(value)
+        return result
+
+    def to_bytes(self, byteorder):
+        result = 0
+        result |= int(self.vm)
+        result |= int(self.ve) << (self.m)
+        result |= int(self.vs) << (self.m + self.e)
+        length = ((1 + self.e + self.m) + 7) // 8
+        return result.to_bytes(length, byteorder)
+
     def set(self, value):
         assert isinstance(value, float)
         value = struct.pack('d', value)
@@ -194,8 +212,12 @@ class nfloat(object):
 def nfloat_type(name, exponent, mantissa):
     def __init__(self, value=0.0):
         nfloat.__init__(self, value, exponent, mantissa)
-    nfloat_type = type(name, (nfloat,), {"__init__": __init__})
-    return nfloat_type
+    def from_bytes(data, byteorder):
+        return nfloat.from_bytes(data, byteorder, exponent, mantissa)
+    return type(name, (nfloat,), {
+        "__init__": __init__,
+        "from_bytes": from_bytes
+    })
 
 # Shorthands
 float16 = nfloat_type('float16', exponent=5,  mantissa=10)

@@ -5,6 +5,7 @@ Native types.
 """
 
 import operator
+import sys
 
 # Helpers
 def get_value(value, bits, signed):
@@ -62,6 +63,16 @@ class nint(object):
         self.s = signed
         self.m = (1 << bits) - 1
         self.set(value)
+
+    # Bytes conversion
+    @staticmethod
+    def from_bytes(data, byteorder, bits, signed):
+        value = int.from_bytes(data, byteorder)
+        return nint(value, bits, signed)
+
+    def to_bytes(self, byteorder):
+        length = (self.b + 7) // 8
+        return self.v.to_bytes(length, byteorder)
 
     def set(self, value):
         if self.s and value & (1 << (self.b - 1)):
@@ -208,8 +219,12 @@ class nint(object):
 def nint_type(name, bits, signed):
     def __init__(self, value=0):
         nint.__init__(self, value, bits, signed)
-    nint_type = type(name, (nint,), {"__init__": __init__})
-    return nint_type
+    def from_bytes(data, byteorder):
+        return nint.from_bytes(data, byteorder, bits, signed)
+    return type(name, (nint,), {
+        "__init__": __init__,
+        "from_bytes": from_bytes
+    })
 
 # Shorthands
 int8   = nint_type('int8',   bits=8,  signed=True)
