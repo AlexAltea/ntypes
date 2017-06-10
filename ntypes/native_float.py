@@ -63,7 +63,20 @@ class nfloat(object):
         value = struct.pack('d', value)
         value = struct.unpack('Q', value)[0]
         self.vs.set(value >> (63))
-        self.ve.set(value >> (63 - self.e))
+        # Exponent
+        ve = (value >> 52) & 0x7FF
+        if not ve:
+            self.ve.set(0)
+        else:
+            src_bits = 11
+            dst_bits = self.e
+            exp_min = - 2 ** (dst_bits - 1) + 2
+            exp_max = + 2 ** (dst_bits - 1) + 0
+            ve -= (2 ** (src_bits - 1)) - 1
+            ve = min(max(ve, exp_min), exp_max)
+            ve += (2 ** (dst_bits - 1)) - 1
+            self.ve.set(ve)
+        # Mantissa
         self.vm.set(value >> (52 - self.m))
         self.vm |= (value >> (51 - min(51, self.m))) & 1
 
@@ -76,6 +89,12 @@ class nfloat(object):
     def __nonzero__(self):
         return bool(float(self))
     def __float__(self):
+        sign = (-1) ** self.vs.v
+        # Non-numbers
+        if self.ve == self.ve.max():
+            if self.vm == 0:
+                return float('inf') * sign
+            return float('nan')
         denormalized = (self.ve == 0)
         # Exponent
         exponent = -(2 ** (self.e - 1)) + 2
@@ -86,7 +105,6 @@ class nfloat(object):
         for i in range(1, self.m + 1):
             mantissa += ((self.vm.v >> (self.m - i)) & 1) * (2 ** (-i))
         # Value
-        sign = (-1) ** self.vs.v
         value = mantissa * (2 ** exponent)
         return sign * value
 

@@ -268,14 +268,14 @@ def test_nfloat_ops_type():
     inf = float('inf')
     nan = float('nan')
     # String
-    #assert str(float32(-0.5)) == str(-0.5)
+    assert str(float32(-0.5)) == str(-0.5)
     assert str(float32(-0.0)) == str(-0.0)
     assert str(float32(+0.0)) == str(+0.0)
     assert str(float32(+1.0)) == str(+1.0)
-    #assert str(float32(+inf)) == str(+inf)
-    #assert str(float32(+nan)) == str(+nan)
+    assert str(float32(+inf)) == str(+inf)
+    assert str(float32(+nan)) == str(+nan)
     # Integer
-    #assert int(float32(-0.5)) == int(-0.5)
+    assert int(float32(-0.5)) == int(-0.5)
     assert int(float32(-0.0)) == int(-0.0)
     assert int(float32(+0.0)) == int(+0.0)
     assert int(float32(+1.0)) == int(+1.0)
@@ -284,15 +284,15 @@ def test_nfloat_ops_type():
     assert bool(float32(-0.0)) == bool(-0.0)
     assert bool(float32(+0.0)) == bool(+0.0)
     assert bool(float32(+1.0)) == bool(+1.0)
-    #assert bool(float32(+inf)) == bool(+inf)
-    #assert bool(float32(+nan)) == bool(+nan)
+    assert bool(float32(+inf)) == bool(+inf)
+    assert bool(float32(+nan)) == bool(+nan)
     # Float
-    #assert float(float32(-0.5)) == float(-0.5)
+    assert float(float32(-0.5)) == float(-0.5)
     assert float(float32(-0.0)) == float(-0.0)
     assert float(float32(+0.0)) == float(+0.0)
     assert float(float32(+1.0)) == float(+1.0)
-    #assert float(float32(+inf)) == float(+inf)
-    #assert float(float32(+nan)) == float(+nan)
+    assert float(float32(+inf)) == float(+inf)
+    assert float(float32(+nan)) != float(+nan)
 
 def test_nfloat_ops_unary():
     inf = float('inf')
@@ -305,26 +305,21 @@ def test_nfloat_ops_unary():
     # Absolute value
     assert abs(float32(+0.0)) == abs(float32(-0.0)) == +0.0
     assert abs(float32(+0.5)) == abs(float32(-0.5)) == +0.5
-    #assert abs(float32(+inf)) == abs(float32(-inf)) == +inf
-    #assert abs(float32(+nan)) == abs(float32(-nan)) == +nan
+    assert abs(float32(+inf)) == abs(float32(-inf)) == +inf
     # Plus
     assert +(float32(+0.0)) == +0.0
     assert +(float32(-0.0)) == -0.0
     assert +(float32(+0.5)) == +0.5
     assert +(float32(-0.5)) == -0.5
-    #assert +(float32(+inf)) == +inf
-    #assert +(float32(-inf)) == -inf
-    #assert +(float32(+nan)) == +nan
-    #assert +(float32(-nan)) == +nan
+    assert +(float32(+inf)) == +inf
+    assert +(float32(-inf)) == -inf
     # Minus
     assert -(float32(+0.0)) == -0.0
     assert -(float32(-0.0)) == +0.0
     assert -(float32(+0.5)) == -0.5
     assert -(float32(-0.5)) == +0.5
-    #assert -(float32(+inf)) == -inf
-    #assert -(float32(-inf)) == +inf
-    #assert -(float32(+nan)) == +nan
-    #assert -(float32(-nan)) == +nan
+    assert -(float32(+inf)) == -inf
+    assert -(float32(-inf)) == +inf
 
 def test_nfloat_ops_binary():
     # Signedness (nfloat + nfloat)
@@ -349,8 +344,8 @@ def test_nfloat_ops_binary():
     assert float32(3.0) *  float32(2.0) == float32(6.0)
     assert float32(3.0) /  float32(2.0) == float32(1.5)
     assert float32(3.0) // float32(2.0) == float32(1.0)
-    #assert float32(7.0) %  float32(5.0) == float32(2.0)
-    #assert float32(3.0) ** float32(4.0) == float32(81.0)
+    assert float32(7.0) %  float32(5.0) == float32(2.0)
+    assert float32(3.0) ** float32(4.0) == float32(81.0)
     
 def test_nfloat_ops_reflected():
     # Exponent size (float <op> nfloat)
@@ -369,8 +364,8 @@ def test_nfloat_ops_reflected():
     assert 3.0  * float32(2.0) == float32(6.0)
     assert 3.0  / float32(2.0) == float32(1.5)
     assert 3.0 // float32(2.0) == float32(1.0)
-    #assert 7.0  % float32(5.0) == float32(2.0)
-    #assert 3.0 ** float32(4.0) == float32(81.0)
+    assert 7.0  % float32(5.0) == float32(2.0)
+    assert 3.0 ** float32(4.0) == float32(81.0)
 
 def test_nfloat_ops_inplace():
     # Exponent size (nfloat <op>= nfloat)
@@ -389,8 +384,8 @@ def test_nfloat_ops_inplace():
     v = float32(3.0);  v  *= float32(2.0);  assert v == float32(6.0)
     v = float32(3.0);  v  /= float32(2.0);  assert v == float32(1.5)
     v = float32(3.0);  v //= float32(2.0);  assert v == float32(1.0)
-    #v = float32(7.0);  v  %= float32(5.0);  assert v == float32(2.0)
-    #v = float32(3.0);  v **= float32(4.0);  assert v == float32(81.0)
+    v = float32(7.0);  v  %= float32(5.0);  assert v == float32(2.0)
+    v = float32(3.0);  v **= float32(4.0);  assert v == float32(81.0)
 
 def test_nfloat_ops_relational():
     # Casts
@@ -421,10 +416,10 @@ def test_nfloat_ops_relational():
     nan = float('nan')
     assert (float32(nan) == float32(1.0)) == False
     assert (float32(nan) != float32(1.0)) == True
-    #assert (float32(nan) <  float32(1.0)) == False
-    #assert (float32(nan) <= float32(1.0)) == False
-    #assert (float32(nan) >= float32(1.0)) == False
-    #assert (float32(nan) >  float32(1.0)) == False
+    assert (float32(nan) <  float32(1.0)) == False
+    assert (float32(nan) <= float32(1.0)) == False
+    assert (float32(nan) >= float32(1.0)) == False
+    assert (float32(nan) >  float32(1.0)) == False
     # Infinite
     inf = float('inf')
     assert (float32(inf) == float32(1.0)) == False
