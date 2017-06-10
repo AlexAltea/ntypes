@@ -172,13 +172,14 @@ class nfloat(object):
         return op_relational(self, rhs, operator.__gt__)
 
 
+# Aliases
+def nfloat_type(name, exponent, mantissa):
+    def __init__(self, value=0.0):
+        nfloat.__init__(self, value, exponent, mantissa)
+    nfloat_type = type(name, (nfloat,), {"__init__": __init__})
+    return nfloat_type
+
 # Shorthands
-class float16(nfloat):
-    def __init__(self, value=0.0):
-        super(float16, self).__init__(value, exponent=5, mantissa=10)
-class float32(nfloat):
-    def __init__(self, value=0.0):
-        super(float32, self).__init__(value, exponent=8, mantissa=23)
-class float64(nfloat):
-    def __init__(self, value=0.0):
-        super(float64, self).__init__(value, exponent=11, mantissa=52)
+float16 = nfloat_type('float16', exponent=5,  mantissa=10)
+float32 = nfloat_type('float32', exponent=8,  mantissa=23)
+float64 = nfloat_type('float64', exponent=11, mantissa=52)

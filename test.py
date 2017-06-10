@@ -46,6 +46,14 @@ def test_nint_values():
     assert int(uint64(-1)) == 0xFFFFFFFFFFFFFFFF
     assert int(uint64(0x10000000000000000)) == 0
 
+def test_nint_aliases():
+    s7_type = nint_type('s5', bits=7, signed=True)
+    u9_type = nint_type('u9', bits=9, signed=False)
+    s7_value = s7_type(0)
+    u9_value = u9_type(0)
+    assert s7_value.b == 7 and s7_value.s == True
+    assert u9_value.b == 9 and u9_value.s == False
+
 def test_nint_utils():
     assert int8().min() == -0x80
     assert int8().max() == +0x7F
@@ -251,6 +259,11 @@ def test_nfloat_values():
     assert float(float32(math.e)) != math.e
     assert float(float32(math.pi)) != math.pi
 
+def test_nfloat_aliases():
+    f8_type = nfloat_type('f', exponent=4, mantissa=3)
+    f8_value = f8_type(0)
+    assert f8_value.e == 4 and f8_value.m == 3
+
 def test_nfloat_ops_type():
     inf = float('inf')
     nan = float('nan')
@@ -428,6 +441,7 @@ def test_nfloat_ops_relational():
 
 def test_nint():
     test_nint_values()
+    test_nint_aliases()
     test_nint_utils()
     test_nint_ops_type()
     test_nint_ops_unary()

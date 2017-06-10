@@ -204,29 +204,19 @@ class nint(object):
         return op_relational(self, rhs, operator.__gt__)
 
 
-# Shorthands
-class int8(nint):
+# Aliases
+def nint_type(name, bits, signed):
     def __init__(self, value=0):
-        super(int8, self).__init__(value, bits=8, signed=True)
-class int16(nint):
-    def __init__(self, value=0):
-        super(int16, self).__init__(value, bits=16, signed=True)
-class int32(nint):
-    def __init__(self, value=0):
-        super(int32, self).__init__(value, bits=32, signed=True)
-class int64(nint):
-    def __init__(self, value=0):
-        super(int64, self).__init__(value, bits=64, signed=True)
+        nint.__init__(self, value, bits, signed)
+    nint_type = type(name, (nint,), {"__init__": __init__})
+    return nint_type
 
-class uint8(nint):
-    def __init__(self, value=0):
-        super(uint8, self).__init__(value, bits=8, signed=False)
-class uint16(nint):
-    def __init__(self, value=0):
-        super(uint16, self).__init__(value, bits=16, signed=False)
-class uint32(nint):
-    def __init__(self, value=0):
-        super(uint32, self).__init__(value, bits=32, signed=False)
-class uint64(nint):
-    def __init__(self, value=0):
-        super(uint64, self).__init__(value, bits=64, signed=False)
+# Shorthands
+int8   = nint_type('int8',   bits=8,  signed=True)
+int16  = nint_type('int16',  bits=16, signed=True)
+int32  = nint_type('int32',  bits=32, signed=True)
+int64  = nint_type('int64',  bits=64, signed=True)
+uint8  = nint_type('uint8',  bits=8,  signed=False)
+uint16 = nint_type('uint16', bits=16, signed=False)
+uint32 = nint_type('uint32', bits=32, signed=False)
+uint64 = nint_type('uint64', bits=64, signed=False)
