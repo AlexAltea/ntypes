@@ -10,7 +10,7 @@ Emulate native integer and floating-point types in Python 2.x and 3.x.
 Install the package via:
 
 ```bash
-pip install ntypes
+pip install nativetypes
 ````
 
 ## Comparison

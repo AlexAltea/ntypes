@@ -4,7 +4,7 @@
 Native types.
 """
 
-from ntypes import *
+from nativetypes import *
 
 def test_nfloat_values():
     assert float(float16(-1.0)) == -1.0

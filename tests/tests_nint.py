@@ -4,7 +4,7 @@
 Native types.
 """
 
-from ntypes import *
+from nativetypes import *
 
 def test_nint_values():
     # Max-min values
