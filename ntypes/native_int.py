@@ -105,6 +105,20 @@ class nint(object):
     def max(self):
         return (2 ** (self.b - int(self.s))) - 1
 
+    # Slicing
+    def __getitem__(self, key):
+        if isinstance(key, int):
+            assert 0 <= key < self.b
+            return bool((int(self) >> key) & 1)
+        if isinstance(key, slice):
+            assert 0 <= key.start < self.b
+            assert 0 <= key.stop < self.b
+            assert key.start < key.stop
+            bits = key.stop - key.start
+            mask = 2 ** bits - 1
+            value = int(self) >> key.start
+            return nint(value, bits, signed=False)
+
     # Conversion operations
     def __str__(self):
         return str(int(self))

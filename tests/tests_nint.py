@@ -65,6 +65,16 @@ def test_nint_bytes():
     # Reinterpret cast
     assert reinterpret_cast(int32, float32(1.0)) == 0x3F800000
 
+def test_nint_slicing():
+    # By index
+    assert int8(0b1001)[0] == True
+    assert int8(0b1001)[1] == False
+    assert int8(0b1001)[2] == False
+    assert int8(0b1001)[3] == True
+    # By slice
+    assert int8(0b1001)[0:2] == 1
+    assert int8(0b1001)[1:3] == 4
+
 def test_nint_utils():
     assert int8().min() == -0x80
     assert int8().max() == +0x7F

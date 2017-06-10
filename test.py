@@ -10,6 +10,7 @@ def test_nint():
     test_nint_values()
     test_nint_aliases()
     test_nint_bytes()
+    test_nint_slicing()
     test_nint_utils()
     test_nint_ops_type()
     test_nint_ops_unary()
