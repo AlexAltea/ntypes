@@ -62,6 +62,8 @@ def test_nint_bytes():
     assert len(nint(bits=1, signed=False).to_bytes(byteorder='big')) == 1
     assert len(nint(bits=8, signed=False).to_bytes(byteorder='big')) == 1
     assert len(nint(bits=9, signed=False).to_bytes(byteorder='big')) == 2
+    # Reinterpret cast
+    assert reinterpret_cast(int32, float32(1.0)) == 0x3F800000
 
 def test_nint_utils():
     assert int8().min() == -0x80

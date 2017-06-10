@@ -4,8 +4,7 @@
 Native types.
 """
 
-from tests.tests_nint import *
-from tests.tests_nfloat import *
+from tests import *
 
 def test_nint():
     test_nint_values()

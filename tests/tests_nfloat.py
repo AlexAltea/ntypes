@@ -36,6 +36,8 @@ def test_nfloat_bytes():
     assert len(nfloat(exponent=4, mantissa= 4).to_bytes(byteorder='big')) == 2
     assert len(nfloat(exponent=5, mantissa=10).to_bytes(byteorder='big')) == 2
     assert len(nfloat(exponent=5, mantissa=11).to_bytes(byteorder='big')) == 3
+    # Reinterpret cast
+    assert reinterpret_cast(float32, int32(0x3F800000)) == 1.0
 
 def test_nfloat_ops_type():
     inf = float('inf')
