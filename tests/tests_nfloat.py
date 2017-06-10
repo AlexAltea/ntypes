@@ -49,6 +49,11 @@ def test_nfloat_ops_type():
     assert str(float32(+1.0)) == str(+1.0)
     assert str(float32(+inf)) == str(+inf)
     assert str(float32(+nan)) == str(+nan)
+    # Representation
+    assert repr(float32(0.0)) == 'float32(0.0)'
+    assert repr(float64(1.0)) == 'float64(1.0)'
+    assert repr(float64(nan)) == 'float64(nan)'
+    assert repr(float64(inf)) == 'float64(inf)'
     # Integer
     assert int(float32(-0.5)) == int(-0.5)
     assert int(float32(-0.0)) == int(-0.0)

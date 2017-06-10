@@ -122,6 +122,9 @@ class nint(object):
     # Conversion operations
     def __str__(self):
         return str(int(self))
+    def __repr__(self):
+        typename = type(self).__name__
+        return '%s(%s)' % (typename, self)
     def __int__(self):
         return int(self.v)
     def __bool__(self):

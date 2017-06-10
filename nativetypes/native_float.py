@@ -100,6 +100,9 @@ class nfloat(object):
 
     def __str__(self):
         return str(float(self))
+    def __repr__(self):
+        typename = type(self).__name__
+        return '%s(%s)' % (typename, self)
     def __int__(self):
         return int(float(self))
     def __bool__(self):
