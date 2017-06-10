@@ -4,7 +4,6 @@
 Native types.
 """
 
-import math
 import operator
 import struct
 
@@ -61,7 +60,8 @@ class nfloat(object):
     # Bytes conversion
     @staticmethod
     def from_bytes(data, byteorder, exponent, mantissa):
-        value = int.from_bytes(data, byteorder)
+        bits = 1 + exponent + mantissa
+        value = int(nint.from_bytes(data, byteorder, bits=bits, signed=False))
         result = nfloat(0.0, exponent, mantissa)
         result.vs.set(value >> (mantissa + exponent))
         result.ve.set(value >> (mantissa))
@@ -69,12 +69,12 @@ class nfloat(object):
         return result
 
     def to_bytes(self, byteorder):
-        result = 0
-        result |= int(self.vm)
-        result |= int(self.ve) << (self.m)
-        result |= int(self.vs) << (self.m + self.e)
-        length = ((1 + self.e + self.m) + 7) // 8
-        return result.to_bytes(length, byteorder)
+        value = 0
+        value |= int(self.vm)
+        value |= int(self.ve) << (self.m)
+        value |= int(self.vs) << (self.m + self.e)
+        bits = 1 + self.e + self.m
+        return nint(value, bits=bits, signed=False).to_bytes(byteorder)
 
     def set(self, value):
         assert isinstance(value, float)
@@ -212,6 +212,7 @@ class nfloat(object):
 def nfloat_type(name, exponent, mantissa):
     def __init__(self, value=0.0):
         nfloat.__init__(self, value, exponent, mantissa)
+    @staticmethod
     def from_bytes(data, byteorder):
         return nfloat.from_bytes(data, byteorder, exponent, mantissa)
     return type(name, (nfloat,), {

@@ -67,12 +67,25 @@ class nint(object):
     # Bytes conversion
     @staticmethod
     def from_bytes(data, byteorder, bits, signed):
-        value = int.from_bytes(data, byteorder)
+        if sys.version_info[0] < 3:
+            if byteorder == 'little':
+                data = data[::-1]
+            value = int(data.encode('hex'), 16)
+        else:
+            value = int.from_bytes(data, byteorder)
         return nint(value, bits, signed)
 
     def to_bytes(self, byteorder):
         length = (self.b + 7) // 8
-        return self.v.to_bytes(length, byteorder)
+        if sys.version_info[0] < 3:
+            data = '%x' % int(self)
+            data = ('0' * (len(data) % 2) + data)
+            data = data.zfill(length * 2).decode('hex')
+            if byteorder == 'little':
+                data = data[::-1]
+            return data
+        else:
+            return int(self).to_bytes(length, byteorder)
 
     def set(self, value):
         if self.s and value & (1 << (self.b - 1)):
@@ -219,6 +232,7 @@ class nint(object):
 def nint_type(name, bits, signed):
     def __init__(self, value=0):
         nint.__init__(self, value, bits, signed)
+    @staticmethod
     def from_bytes(data, byteorder):
         return nint.from_bytes(data, byteorder, bits, signed)
     return type(name, (nint,), {
