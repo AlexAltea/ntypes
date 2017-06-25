@@ -103,6 +103,9 @@ class nfloat(object):
     def __repr__(self):
         typename = type(self).__name__
         return '%s(%s)' % (typename, self)
+    def __format__(self, format_spec):
+        template = '{{:{}}}'.format(format_spec)
+        return template.format(self.v)
     def __int__(self):
         return int(float(self))
     def __bool__(self):
