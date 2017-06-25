@@ -58,7 +58,7 @@ def op_relational(lhs, rhs, op):
 # Custom operators
 def op_div(lhs, rhs):
     # Warning: Low quality code. Maybe we need a cleaner hack to avoid recursion.
-    return int(int(lhs) / int(rhs))
+    return int(operator.truediv(int(lhs), int(rhs)))
 
 def op_mod(lhs, rhs):
     return lhs - lhs // rhs * rhs
