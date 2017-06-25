@@ -91,6 +91,12 @@ def test_nint_ops_type():
     # Representation
     assert repr(int8(123)) == 'int8(123)'
     assert repr(uint16(456)) == 'uint16(456)'
+    # Format
+    assert '{0}'.format(uint8(0x00)) == str(int8(0x00)) == str(0)
+    assert '{0}'.format(uint8(0x01)) == str(int8(0x01)) == str(1)
+    assert '{0}'.format(uint8(0x7F)) == str(int8(0x7F)) == str(127)
+    assert '{0}'.format(uint8(0xFF)) == str(255)
+    assert '{0}'.format(uint8(0xFF)) == str(-1)
     # Integer
     assert int(uint8(0x00)) == int(int8(0x00)) == 0
     assert int(uint8(0x01)) == int(int8(0x01)) == 1
