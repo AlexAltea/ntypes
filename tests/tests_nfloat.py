@@ -56,11 +56,11 @@ def test_nfloat_ops_type():
     assert repr(float64(inf)) == 'float64(inf)'
     # Format
     assert '{0}'.format(float32(-0.5)) == str(-0.5)
-    assert '{0}'.format(float32(-0.5)) == str(+0.0)
-    assert '{0}'.format(float32(-0.5)) == str(-1.0)
-    assert '{0}'.format(float32(-0.5)) == str(+1.0)
-    assert '{0}'.format(float32(-0.5)) == str(+inf)
-    assert '{0}'.format(float32(-0.5)) == str(+nan)
+    assert '{0}'.format(float32(+0.0)) == str(+0.0)
+    assert '{0}'.format(float32(-1.0)) == str(-1.0)
+    assert '{0}'.format(float32(+1.0)) == str(+1.0)
+    assert '{0}'.format(float32(+inf)) == str(+inf)
+    assert '{0}'.format(float32(+nan)) == str(+nan)
     # Integer
     assert int(float32(-0.5)) == int(-0.5)
     assert int(float32(-0.0)) == int(-0.0)

@@ -127,7 +127,7 @@ class nint(object):
         return '%s(%s)' % (typename, self)
     def __format__(self, format_spec):
         template = '{{:{}}}'.format(format_spec)
-        return template.format(self.v)
+        return template.format(int(self))
     def __int__(self):
         return int(self.v)
     def __bool__(self):
