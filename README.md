@@ -41,7 +41,7 @@ Although Python prevents many headaches with its arbitrarily large integers, wri
 
 The documentation is quite incomplete at this moment. Check the examples below or check the tests.
 
->  __Why is this package nativetypes__?
+>  __Why is this package called *nativetypes*__?
 
 I'm not good with naming. Ideally, I would have registered *ntypes* instead, but that one was apparently taken.
 

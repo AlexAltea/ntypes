@@ -31,6 +31,12 @@ def promote_bits(lhs, rhs):
 def promote_signed(lhs, rhs):
     return lhs.s & rhs.s
 
+# Helpers
+def op_div(lhs, rhs):
+    return int(operator.truediv(lhs, rhs))
+def op_mod(lhs, rhs):
+    return lhs - op_div(lhs, rhs) * rhs
+
 # Operators
 def op_unary(value, op):
     bits = value.b
@@ -54,14 +60,6 @@ def op_relational(lhs, rhs, op):
     return op(
         get_value(lhs, bits, signed),
         get_value(rhs, bits, signed))
-
-# Custom operators
-def op_div(lhs, rhs):
-    # Warning: Low quality code. Maybe we need a cleaner hack to avoid recursion.
-    return int(operator.truediv(int(lhs), int(rhs)))
-
-def op_mod(lhs, rhs):
-    return lhs - lhs // rhs * rhs
 
 # Native Integer
 class nint(object):
@@ -165,17 +163,13 @@ class nint(object):
     def __mul__(self, rhs):
         return op_binary(self, rhs, operator.__mul__)
     def __div__(self, rhs):
-        # return self.op_binary(self, rhs, operator.__div__)
-        return op_div(self, rhs)
+        return op_binary(self, rhs, op_div)
     def __floordiv__(self, rhs):
-        # return self.op_binary(self, rhs, operator.__floordiv__)
-        return op_div(self, rhs)
+        return op_binary(self, rhs, op_div)
     def __truediv__(self, rhs):
-        # return self.op_binary(self, rhs, operator.__truediv__)
-        return op_div(self, rhs)
+        return op_binary(self, rhs, op_div)
     def __mod__(self, rhs):
-        # return self.op_binary(self, rhs, operator.__mod__)
-        return op_mod(self, rhs)
+        return op_binary(self, rhs, op_mod)
     def __pow__(self, rhs):
         return op_binary(self, rhs, operator.__pow__)
     def __and__(self, rhs):
@@ -197,17 +191,13 @@ class nint(object):
     def __rmul__(self, lhs):
         return op_binary(lhs, self, operator.__mul__)
     def __rdiv__(self, lhs):
-        # return self.op_binary(lhs, self, operator.__floordiv__)
-        return op_div(lhs, self)
+        return op_binary(lhs, self, op_div)
     def __rfloordiv__(self, lhs):
-        # return self.op_binary(lhs, self, operator.__floordiv__)
-        return op_div(lhs, self)
+        return op_binary(lhs, self, op_div)
     def __rtruediv__(self, lhs):
-        # return self.op_binary(lhs, self, operator.__floordiv__)
-        return op_div(lhs, self)
+        return op_binary(lhs, self, op_div)
     def __rmod__(self, lhs):
-        # return self.op_binary(lhs, self, operator.__mod__)
-        return op_mod(lhs, self)
+        return op_binary(lhs, self, op_mod)
     def __rpow__(self, lhs):
         return op_binary(lhs, self, operator.__pow__)
     def __rand__(self, lhs):
@@ -229,17 +219,13 @@ class nint(object):
     def __imul__(self, v):
         return self.op_binary_inplace(v, operator.__mul__)
     def __idiv__(self, v):
-        # return self.op_binary_inplace(v, operator.__floordiv__)
-        return op_div(self, v)
+        return self.op_binary_inplace(v, op_div)
     def __ifloordiv__(self, v):
-        # return self.op_binary_inplace(v, operator.__floordiv__)
-        return op_div(self, v)
+        return self.op_binary_inplace(v, op_div)
     def __itruediv__(self, v):
-        # return self.op_binary_inplace(v, operator.__floordiv__)
-        return op_div(self, v)
+        return self.op_binary_inplace(v, op_div)
     def __imod__(self, v):
-        # return self.op_binary_inplace(v, operator.__mod__)
-        return op_mod(self, v)
+        return self.op_binary_inplace(v, op_mod)
     def __ipow__(self, v):
         return self.op_binary_inplace(v, operator.__pow__)
     def __iand__(self, v):
