@@ -72,8 +72,9 @@ def test_nint_slicing():
     assert int8(0b1001)[2] == False
     assert int8(0b1001)[3] == True
     # By slice
-    assert int8(0b1001)[0:2] == 1
-    assert int8(0b1001)[1:3] == 4
+    assert int8(0b00001001)[0:2] == 1
+    assert int8(0b00001001)[1:4] == 4
+    assert int8(0b10000000)[7:8] == 1
 
 def test_nint_utils():
     assert int8().min() == -0x80
