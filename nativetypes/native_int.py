@@ -178,9 +178,9 @@ class nint(object):
     def __xor__(self, rhs):
         return op_binary(self, rhs, operator.__xor__)
     def __lshift__(self, rhs):
-        return op_binary(self, rhs, operator.__lshift__)
+        return op_binary(self, rhs % self.b, operator.__lshift__)
     def __rshift__(self, rhs):
-        return op_binary(self, rhs, operator.__rshift__)
+        return op_binary(self, rhs % self.b, operator.__rshift__)
 
     # Reflected binary operation
     def __radd__(self, lhs):
@@ -206,9 +206,9 @@ class nint(object):
     def __rxor__(self, lhs):
         return op_binary(lhs, self, operator.__xor__)
     def __rlshift__(self, lhs):
-        return op_binary(lhs, self, operator.__lshift__)
+        return op_binary(lhs, self % self.b, operator.__lshift__)
     def __rrshift__(self, lhs):
-        return op_binary(lhs, self, operator.__rshift__)
+        return op_binary(lhs, self % self.b, operator.__rshift__)
 
     # In-place operations
     def __iadd__(self, v):
@@ -234,9 +234,9 @@ class nint(object):
     def __ixor__(self, v):
         return self.op_binary_inplace(v, operator.__xor__)
     def __ilshift__(self, v):
-        return self.op_binary_inplace(v, operator.__lshift__)
+        return self.op_binary_inplace(v % self.b, operator.__lshift__)
     def __irshift__(self, v):
-        return self.op_binary_inplace(v, operator.__rshift__)
+        return self.op_binary_inplace(v % self.b, operator.__rshift__)
 
     # Boolean operations
     def __eq__(self, rhs):
