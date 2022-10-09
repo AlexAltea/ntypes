@@ -191,6 +191,8 @@ def test_nint_ops_binary():
     # Shifts
     assert uint16(0x1234) >> 4 == uint16(0x0123)
     assert uint16(0x1234) << 4 == uint16(0x2340)
+    assert uint16(0x1234) >> 20 == uint16(0x0123)
+    assert uint16(0x1234) << 20 == uint16(0x2340)
 
 def test_nint_ops_reflected():
     # Signedness (int + nint)
@@ -221,6 +223,8 @@ def test_nint_ops_reflected():
     # Shifts
     assert 0x1234 >> uint16(4) == uint16(0x0123)
     assert 0x1234 << uint16(4) == uint16(0x2340)
+    assert 0x1234 >> uint16(20) == uint16(0x0123)
+    assert 0x1234 << uint16(20) == uint16(0x2340)
 
 def test_nint_ops_inplace():
     # Casts
@@ -250,6 +254,8 @@ def test_nint_ops_inplace():
     # Shifts
     v = uint16(0x1234);  v >>= 4;  assert v == uint16(0x0123)
     v = uint16(0x1234);  v <<= 4;  assert v == uint16(0x2340)
+    v = uint16(0x1234);  v >>= 20;  assert v == uint16(0x0123)
+    v = uint16(0x1234);  v <<= 20;  assert v == uint16(0x2340)
 
 def test_nint_ops_relational():
     # Casts
