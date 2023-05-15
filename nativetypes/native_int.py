@@ -91,7 +91,7 @@ class nint(object):
                 data = data[::-1]
             return data
         else:
-            return int(self).to_bytes(length, byteorder)
+            return int(self).to_bytes(length, byteorder, signed=self.s)
 
     def set(self, value):
         if self.s and value & (1 << (self.b - 1)):

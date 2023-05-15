@@ -58,6 +58,10 @@ def test_nint_bytes():
     # nint to bytes
     assert int16(0x0001).to_bytes(byteorder='big') == b'\x00\x01'
     assert int16(0x0001).to_bytes(byteorder='little') == b'\x01\x00'
+    assert int8(-1).to_bytes(byteorder='little') == b'\xFF'
+    assert uint8(-1).to_bytes(byteorder='little') == b'\xFF'
+    assert int8(0xFF).to_bytes(byteorder='little') == b'\xFF'
+    assert uint8(0xFF).to_bytes(byteorder='little') == b'\xFF'
     assert nint(0x234, bits=12, signed=False).to_bytes(byteorder='big') == b'\x02\x34'
     assert len(nint(bits=1, signed=False).to_bytes(byteorder='big')) == 1
     assert len(nint(bits=8, signed=False).to_bytes(byteorder='big')) == 1
