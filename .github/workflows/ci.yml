@@ -1,0 +1,31 @@
+name: ci
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.8]
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Install and run tests
+      run: |
+        pip3 install .
+        python3 test.py
+        python3 setup.py check --strict --metadata
+
+    - name: Coverage check
+      run: |
+        pip3 install coveralls
+        coverage run --source=nativetypes test.py
+        coveralls
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

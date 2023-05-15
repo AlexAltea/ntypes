@@ -1,7 +1,7 @@
 Native Types
 ============
 
-[![](https://api.travis-ci.org/AlexAltea/ntypes.svg?branch=master)](https://travis-ci.org/AlexAltea/ntypes/)
+[![](https://github.com/AlexAltea/ntypes/actions/workflows/ci.yml/badge.svg)](https://github.com/AlexAltea/ntypes/actions/workflows/ci.yml)
 [![](https://coveralls.io/repos/github/AlexAltea/ntypes/badge.svg?branch=master)](https://coveralls.io/github/AlexAltea/ntypes?branch=master)
 [![](https://img.shields.io/pypi/v/nativetypes.svg)](https://pypi.python.org/pypi/nativetypes)
 
