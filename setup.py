@@ -4,7 +4,7 @@
 import codecs
 import setuptools
 
-NTYPES_VERSION = '1.0.5'
+NTYPES_VERSION = '1.0.6'
 NTYPES_REPOSITORY_URL = 'https://github.com/AlexAltea/ntypes'
 NTYPES_DOWNLOAD_URL = 'https://github.com/AlexAltea/ntypes/tarball/' + NTYPES_VERSION
 
