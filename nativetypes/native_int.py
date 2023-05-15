@@ -100,8 +100,11 @@ class nint(object):
             self.v = value & self.m
 
     def op_binary_inplace(self, value, op):
-        result_int = op(self.v, value)
-        self.set(result_int)
+        result = op(self.v, value)
+        if isinstance(result, int):
+            self.set(result)
+        else:
+            self.set(result.v)
         return self
 
     # Utilities
